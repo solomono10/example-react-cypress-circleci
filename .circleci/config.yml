@@ -3,15 +3,17 @@ jobs:
   build:
     docker:
       - image: circleci/node:4.8.2
+    working_directory: ./app
     steps:
       - checkout
       - run: echo "building"
-      - run: cd app
+      # - run: cd app
       - run: npm install
       - run: npm run start
   test:
     docker:
       - image: circleci/node:4.8.2
+    working_directory: ./e2e
     steps:
       - checkout
       - run: echo "testing"
