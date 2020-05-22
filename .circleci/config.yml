@@ -29,7 +29,7 @@ workflows:
     jobs:
       - build
       - test:
-          start: npm start
+          # start: npm start
           wait-on: 'http://localhost:3000'
           requires:
             - build # wait for build1 job to complete successfully before starting
