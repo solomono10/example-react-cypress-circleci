@@ -6,19 +6,16 @@ jobs:
     steps:
       - checkout
       - run: echo "building"
-      # - run: cd app
       - run: cd app && npm install
-      - run: npm run start
+      - run: cd app && npm run start
   test:
     docker:
-      - image: circleci/node:4.8.2
-    working_directory: ./e2e
+      - image: cypress/browsers:chrome67
     steps:
       - checkout
       - run: echo "testing"
-      - run: cd e2e
-      - run: npm install
-      - run: npm run cy:run
+      - run: cd e2e && npm install
+      - run: cd e2e && npm run cy:run
 
 workflows:
   version: 2
