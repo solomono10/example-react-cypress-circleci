@@ -29,6 +29,13 @@ workflows:
     jobs:
       - build
       - test:
+          start: npm start
+          wait-on: 'http://localhost:3000'
           requires:
             - build # wait for build1 job to complete successfully before starting
             # see circleci.com/docs/2.0/workflows/ for more examples.
+    #         build:
+    # jobs:
+    #   - cypress/run:
+    #       start: npm start
+    #       wait-on: 'http://localhost:4200'
