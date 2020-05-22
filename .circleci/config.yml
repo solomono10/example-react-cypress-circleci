@@ -3,12 +3,11 @@ jobs:
   build:
     docker:
       - image: circleci/node:4.8.2
-    working_directory: ./app
     steps:
       - checkout
       - run: echo "building"
       # - run: cd app
-      - run: npm install
+      - run: cd app && npm install
       - run: npm run start
   test:
     docker:
