@@ -2,25 +2,40 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
+      - image: circleci/node:10.16.0
     steps:
-      - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
+      - checkout
+      - run: echo "building"
+      - run:
+          command: |
+            cd app
+            npm install
+            npm run start
+  test:
+    docker:
+      - image: cypress/browsers:chrome67
+    steps:
+      - checkout
+      - run: echo "testing"
+      - run:
+          command: |
+            cd e2e
+            npm install
+            npm run cy:run
 
-# version: 2.1
-# orbs:
-#   node: circleci/node@1.1.6
-# jobs:
-#   build-and-test:
-#     executor:
-#       name: node/default
-#     steps:
-#       - checkout
-#       - node/with-cache:
-#           steps:
-#             - run: npm install
-#             - run: npm test
-# workflows:
-#   build-and-test:
-#     jobs:
-#       - build-and-test
+workflows:
+  version: 2
+  build_and_test: # name of your workflow
+    jobs:
+      - build
+      - test:
+          # start: npm start
+          wait-on: 'http://localhost:3000'
+          requires:
+            - build # wait for build1 job to complete successfully before starting
+            # see circleci.com/docs/2.0/workflows/ for more examples.
+    #         build:
+    # jobs:
+    #   - cypress/run:
+    #       start: npm start
+    #       wait-on: 'http://localhost:4200'
